@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+  - 13
+
+services:
+  - docker
+
+install:
+  - echo "nothing needs to be installed"
+
+before_script:
+  - echo "no tests"
+
+script:
+  - docker --version
+  - docker build -t udagram-api-feed .
+  - docker tag udagram-api-feed ducathtla/udagram-api-feed:latest
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push ducathtla/udagram-api-feed:latest
